@@ -1,0 +1,9 @@
+generate-ForgetPasswordForm/node_modules
+generate-Login/node_modules
+generate-LoginForm/node_modules
+generate-RegisterForm/node_modules
+
+generate-ForgetPasswordForm/build
+generate-Login/build
+generate-LoginForm/build
+generate-RegisterForm/build
