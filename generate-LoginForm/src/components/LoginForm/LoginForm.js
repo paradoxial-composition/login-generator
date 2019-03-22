@@ -15,9 +15,7 @@ class LoginForm extends React.Component {
   
     this.handleForgetClick= this.handleForgetClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.handleClick = this.handleClick.bind(this);
     this.handleSignUpClick = this.handleSignUpClick.bind(this);
-    // this.handleClickConfirm = this.handleClickConfirm.bind(this);
 
 
     console.log('reload ....')
@@ -54,6 +52,8 @@ class LoginForm extends React.Component {
           //     });
           // TODO add toSignIn method
           //    })
+          
+          
           } catch (e) {
             console.log("backend connection failed.");
           }
@@ -64,15 +64,21 @@ class LoginForm extends React.Component {
 
   handleSignUpClick (e) {
     e.preventDefault();
-    //this.props.toRegisterForm();
-	//emit event here
+      if ( typeof this.props.enableToLoginForm == 'function') {
+        this.props.enableToRegisterForm();
+      } else {
+        this.props.toRegisterForm();
+      }
   }
   
   handleForgetClick (e) {
-		e.preventDefault();
-		//this.props.toForgetForm();
-		//emit event here
-  };
+    e.preventDefault();
+    if ( typeof this.props.enableToLoginForm == 'function') {
+      this.props.enableToForgetForm();
+    } else {
+      this.props.toForgetForm();
+    }
+  }
   
   // handleClickConfirm (e) {
   //   e.preventDefault();
@@ -101,6 +107,21 @@ class LoginForm extends React.Component {
                     <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" onChange={(event) => this.setState({email:event.target.value} )} />
                   )}
                 </Form.Item>
+                <CustomFormItem
+                  dynamicComponent={
+                    () => {
+                      return (
+                        <Form.Item>
+                          {getFieldDecorator('password', {
+                            rules: [{ required: true, message: 'Please input your Password!' }],
+                          })(
+                            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" onChange={(event) => this.setState({password:event.target.value} )} />
+                          )}
+                        </Form.Item>        
+                      )
+                    }
+                  } 
+                />
                 <Form.Item>
                   {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Please input your Password!' }],
@@ -133,7 +154,10 @@ class LoginForm extends React.Component {
 
 }
  LoginForm.defaultProps = {
-  backendPath: 'http://localhost:8081/login'
+  backendPath: 'http://localhost:8081/login',
+  enableToRegisterForm : null,
+  enableToLoginForm : null,
+  enableToForgetForm : null
  }
   const WrappedLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
   export default WrappedLoginForm;

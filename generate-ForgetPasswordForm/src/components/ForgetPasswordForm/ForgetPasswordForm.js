@@ -21,16 +21,23 @@ class ForgetPasswordForm extends Component {
 			
 	
 		 console.log("handleForgotSubmit has passed, calling back end now");
-		 //this.props.toLoginForm();
-		// emit event here
+		 if ( typeof this.props.enableToLoginForm == 'function') {
+			this.props.enableToLoginForm();
+		} else {
+			this.props.ToLoginForm();
+		}
+		 
 		 }
 		});
 	}
 
 	handleCancelClick (e) {
 		e.preventDefault();
-		//this.props.toLoginForm();
-		// emit event here
+    if ( typeof this.props.enableToLoginForm == 'function') {
+			this.props.enableToLoginForm();
+		} else {
+			this.props.ToLoginForm();
+		}
 	}
 		
 
@@ -59,7 +66,8 @@ class ForgetPasswordForm extends Component {
 }
 
 ForgetPasswordForm.defaultProps = {
-	backendPath: `http://localhost:8081/forgetPassword`
+	backendPath: `http://localhost:8081/forgetPassword`,
+	enableToLoginForm : null,
 }
 const WrappedLoginForm = Form.create({ name: 'normal_login' })(ForgetPasswordForm);
 

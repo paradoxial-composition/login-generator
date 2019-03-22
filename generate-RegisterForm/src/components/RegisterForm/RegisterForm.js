@@ -22,8 +22,11 @@ import {
 
   handleCancelClick(e) {
     e.preventDefault();
-    //this.props.toLoginForm();
-	//emit event
+    if ( typeof this.props.enableToLoginForm == 'function') {
+			this.props.enableToLoginForm();
+		} else {
+			this.props.ToLoginForm();
+		}
   }
 
   
@@ -56,9 +59,11 @@ import {
         //     });
         //    })
 
-
-        //this.props.toLoginForm();
-	//emit event here
+        if ( typeof this.props.enableToLoginForm == 'function') {
+          this.props.enableToLoginForm();
+        } else {
+          this.props.ToLoginForm();
+        }
         } catch (e) {
           console.log("backend connection failed.");
         }
@@ -102,7 +107,8 @@ import {
   }
 }
   RegisterForm.defaultProps = {
-    backendPath: `http://localhost:8081/register`
+    backendPath: `http://localhost:8081/register`,
+    enableToLoginForm: null
   }
   const WrappedLoginForm = Form.create({ name: 'normal_login' })(RegisterForm);
 
